@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.1" />
+    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.10.1" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.2.2" />
   </ItemGroup>
 
 
