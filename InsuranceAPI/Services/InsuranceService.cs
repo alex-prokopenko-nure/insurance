@@ -49,6 +49,16 @@ namespace InsuranceAPI.Services
             return await _cases.Find(filter).ToListAsync();
         }
 
+        public IEnumerable<City> GetCities()
+        {
+            return new List<City> { 
+                new City { Id = 18, Name = "New York" },
+                new City { Id = 27, Name = "London" },
+                new City { Id = 13, Name = "Paris" },
+                new City { Id = 36, Name = "Amsterdam" }
+            };
+        }
+
         public async Task<Case> UpdateCase(string id, Case caseModel)
         {
             await _cases.ReplaceOneAsync(new BsonDocument("_id", new ObjectId(id)), caseModel);

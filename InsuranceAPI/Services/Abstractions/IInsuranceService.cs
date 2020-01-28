@@ -8,6 +8,8 @@ namespace InsuranceAPI.Services.Abstractions
 {
     public interface IInsuranceService
     {
+        IEnumerable<City> GetCities();
+
         Task<IEnumerable<Case>> GetCases();
 
         Task<Case> GetCase(string id);

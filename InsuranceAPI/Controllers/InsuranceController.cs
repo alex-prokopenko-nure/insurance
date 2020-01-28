@@ -40,6 +40,13 @@ namespace InsuranceAPI.Controllers
             return Ok(result);
         }
 
+        [HttpGet("cities")]
+        public ActionResult<IEnumerable<City>> GetCities()
+        {
+            var result = _insuranceService.GetCities();
+            return Ok(result);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Case>> Post([FromBody]Case caseModel)
         {
@@ -48,14 +55,14 @@ namespace InsuranceAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<IEnumerable<Case>>> Patch([FromRoute]string id, [FromBody]Case caseModel)
+        public async Task<ActionResult<Case>> Patch([FromRoute]string id, [FromBody]Case caseModel)
         {
             var result = await _insuranceService.UpdateCase(id, caseModel);
             return Ok(result);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<IEnumerable<Case>>> Delete([FromRoute]string id)
+        public async Task<IActionResult> Delete([FromRoute]string id)
         {
             await _insuranceService.DeleteCase(id);
             return NoContent();

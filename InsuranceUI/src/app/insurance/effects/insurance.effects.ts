@@ -6,7 +6,7 @@ import { InsuranceApiService } from '../services/insurance.api.service';
 import { InsuranceActions } from '../actions/insurance.actions';
 
 @Injectable()
-export class ClientEffect {
+export class InsuranceEffects {
   constructor(
     private _actions$: Actions,
     private _insuranceApiService: InsuranceApiService
@@ -17,7 +17,7 @@ export class ClientEffect {
       ofType(InsuranceActions.loadAllCases),
       mergeMap(() => this._insuranceApiService.loadAllCases$().pipe(
         map(cases => InsuranceActions.loadAllCasesSuccess({ cases })),
-        catchError(error => of(InsuranceActions.loadAllCasesError({ error })))
+        catchError(error => of(InsuranceActions.loadAllCasesError({ error: error.error })))
       ))
     )
   );
@@ -27,7 +27,7 @@ export class ClientEffect {
       ofType(InsuranceActions.createCase),
       mergeMap(action => this._insuranceApiService.createCase$(action.caseModel).pipe(
         map(caseModel => InsuranceActions.createCaseSuccess({ caseModel })),
-        catchError(error => of(InsuranceActions.createCaseError({ error })))
+        catchError(error => of(InsuranceActions.createCaseError({ error: error.error })))
       ))
     )
   );
@@ -37,7 +37,7 @@ export class ClientEffect {
       ofType(InsuranceActions.updateCase),
       mergeMap(action => this._insuranceApiService.updateCase$(action.id, action.caseModel).pipe(
         map(caseModel => InsuranceActions.updateCaseSuccess({ caseModel })),
-        catchError(error => of(InsuranceActions.updateCaseError({ error })))
+        catchError(error => of(InsuranceActions.updateCaseError({ error: error.error })))
       ))
     )
   );
@@ -47,7 +47,7 @@ export class ClientEffect {
       ofType(InsuranceActions.deleteCase),
       mergeMap(action => this._insuranceApiService.deleteCase$(action.id).pipe(
         map(() => InsuranceActions.deleteCaseSuccess({ id: action.id })),
-        catchError(error => of(InsuranceActions.deleteCaseError({ error })))
+        catchError(error => of(InsuranceActions.deleteCaseError({ error: error.error })))
       ))
     )
   );

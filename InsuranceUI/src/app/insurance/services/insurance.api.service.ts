@@ -1,25 +1,26 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
+import { InsuranceSwaggerApiService } from 'src/app/services/insurance.swagger.api.service';
 
 @Injectable()
 export class InsuranceApiService {
-  constructor() {
+  constructor(private _swaggerApiService: InsuranceSwaggerApiService) {
 
   }
 
   loadAllCases$ = () => {
-    return of([]);
+    return this._swaggerApiService.getAll();
   }
 
   createCase$ = (caseModel: any) => {
-    return of(caseModel);
+    return this._swaggerApiService.post(caseModel);
   }
 
   updateCase$ = (id: string, caseModel: any) => {
-    return of(caseModel);
+    return this._swaggerApiService.patch(id, caseModel);
   }
 
   deleteCase$ = (id: string) => {
-    return of();
+    return this._swaggerApiService.delete(id);
   }
 }

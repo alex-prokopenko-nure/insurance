@@ -17,4 +17,5 @@ export class CaseModalComponent implements OnInit {
   ngOnInit() {
   }
 
+  
 }

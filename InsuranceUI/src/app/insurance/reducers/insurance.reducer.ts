@@ -1,30 +1,33 @@
 import { Action, createReducer, on, createSelector, createFeatureSelector } from '@ngrx/store';
 import { EntityAdapter, createEntityAdapter, EntityState } from '@ngrx/entity';
 import { InsuranceActions } from '../actions/insurance.actions';
+import { Case, City } from 'src/app/services/insurance.swagger.api.service';
 
 export const featureKey = 'Insurance';
 
-export interface State extends EntityState<any> {
+export interface State extends EntityState<Case> {
   selectedCaseId: string;
   error: any;
+  cities: City[];
 }
 
-export function selectCaseId(a: any): string {
+export function selectCaseId(a: Case): string {
   return a.id;
 }
 
-export function sortByName(a: any, b: any): number {
-  return a.name.localeCompare(b.name);
+export function sortByName(a: Case, b: Case): number {
+  return a.number.localeCompare(b.number);
 }
 
-export const adapter: EntityAdapter<any> = createEntityAdapter<any>({
+export const adapter: EntityAdapter<Case> = createEntityAdapter<Case>({
   selectId: selectCaseId,
   sortComparer: sortByName,
 });
 
 export const initialState: State = adapter.getInitialState({
   selectedCaseId: '',
-  error: undefined
+  error: undefined,
+  cities: []
 });
 
 const insuranceReducer = createReducer(
@@ -42,7 +45,9 @@ const insuranceReducer = createReducer(
   on(InsuranceActions.createCaseError, (state, action) => ({ ...state, error: action.error })),
   on(InsuranceActions.updateCaseError, (state, action) => ({ ...state, error: action.error })),
   on(InsuranceActions.deleteCaseError, (state, action) => ({ ...state, error: action.error })),
-  on(InsuranceActions.loadAllCasesError, (state, action) => ({ ...state, error: action.error }))
+  on(InsuranceActions.loadAllCasesError, (state, action) => ({ ...state, error: action.error })),
+  on(InsuranceActions.loadCitiesSuccess, (state, action) => ({ ...state, cities: action.cities })),
+  on(InsuranceActions.loadCitiesError, (state, action) => ({ ...state, error: action.error })),
 );
 
 export function reducer(state: State, action: Action) {
@@ -50,7 +55,9 @@ export function reducer(state: State, action: Action) {
 }
 
 export const selectInsurance = createFeatureSelector<State>(featureKey);
+export const selectAllCases = createSelector(selectInsurance, adapter.getSelectors().selectAll);
 export const selectCaseEntities = createSelector(selectInsurance, adapter.getSelectors().selectEntities);
 export const selectCurrentCaseId = createSelector(selectInsurance, (state: State) => state.selectedCaseId);
 export const selectError = createSelector(selectInsurance, (state: State) => state.error);
 export const selectCurrentCase = createSelector(selectCaseEntities, selectCurrentCaseId, (caseEntities, caseId) => caseEntities[caseId]);
+export const selectCities = createSelector(selectInsurance, (state: State) => state.cities);

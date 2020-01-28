@@ -39,11 +39,17 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { NgxMaskModule } from 'ngx-mask';
 import { CaseModalComponent } from './components/case-modal/case-modal.component';
+import { DeleteModalComponent } from './components/delete-modal/delete-modal.component';
+import { StoreModule } from '@ngrx/store';
+import * as fromInsurance from './reducers/insurance.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { InsuranceEffects } from './effects/insurance.effects';
 
 @NgModule({
   declarations: [
     InsuranceComponent,
-    CaseModalComponent
+    CaseModalComponent,
+    DeleteModalComponent
   ],
   imports: [
     CommonModule,
@@ -80,6 +86,8 @@ import { CaseModalComponent } from './components/case-modal/case-modal.component
     MatSortModule,
     MatPaginatorModule,
     NgxMaskModule,
+    StoreModule.forFeature(fromInsurance.featureKey, fromInsurance.reducer),
+    EffectsModule.forFeature([InsuranceEffects])
   ],
   providers: [
     InsuranceService,
