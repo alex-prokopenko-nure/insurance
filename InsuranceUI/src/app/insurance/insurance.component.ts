@@ -44,7 +44,9 @@ export class InsuranceComponent implements OnInit, OnDestroy {
     this.subscriptions$.add(
       this._insuranceService.error$.subscribe(
         error => {
-          this._snackBar.open(error, 'OK', { duration: 7000 });
+          if (error) {
+            this._snackBar.open(error, 'OK', { duration: 7000 });
+          }
         }
       )
     );
@@ -73,8 +75,8 @@ export class InsuranceComponent implements OnInit, OnDestroy {
   getCaseDamage = (caseModel: Case) => {
     let sum = 0;
     
-    for (let damage in caseModel.damages) {
-      sum += damage.amount
+    for (let i = 0; i < caseModel.damages.length; ++i) {
+      sum += caseModel.damages[i].amount;
     }
 
     return sum;
@@ -87,16 +89,6 @@ export class InsuranceComponent implements OnInit, OnDestroy {
   editCase = (id: string) => {
     this._insuranceService.selectCase(id);
     const dialogRef = this._dialog.open(CaseModalComponent);
-    dialogRef.afterClosed().subscribe(
-      () => {
-        this._insuranceService.clearCase();
-      }
-    );
-  }
-
-  deleteCase = (id: string) => {
-    this._insuranceService.selectCase(id);
-    const dialogRef = this._dialog.open(DeleteModalComponent);
     dialogRef.afterClosed().subscribe(
       () => {
         this._insuranceService.clearCase();

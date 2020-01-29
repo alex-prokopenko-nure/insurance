@@ -12,6 +12,10 @@ export class InsuranceApiService {
     return this._swaggerApiService.getAll();
   }
 
+  loadCities$ = () => {
+    return this._swaggerApiService.getCities();
+  }
+
   createCase$ = (caseModel: any) => {
     return this._swaggerApiService.post(caseModel);
   }

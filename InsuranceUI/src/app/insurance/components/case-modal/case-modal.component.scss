@@ -1,0 +1,49 @@
+.title {
+  font-size: 18px;
+  font-weight: 550;
+  line-height: 1.125;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+
+.large {
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.shifted {
+  padding-left: 20px;
+}
+
+mat-form-field {
+  padding: 4px 10px;
+}
+
+.address-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.address-item {
+  flex: 0 40%;
+}
+
+.big-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
+}
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.wide {
+  width: 40%;
+}
+
+.btn-wrapper {
+  button {
+    margin: 0 10px;
+  }
+}

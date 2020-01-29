@@ -44,15 +44,19 @@ import { StoreModule } from '@ngrx/store';
 import * as fromInsurance from './reducers/insurance.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { InsuranceEffects } from './effects/insurance.effects';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DigitsDirective } from './directives/digit.directive';
 
 @NgModule({
   declarations: [
     InsuranceComponent,
     CaseModalComponent,
-    DeleteModalComponent
+    DeleteModalComponent,
+    DigitsDirective
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     InsuranceRoutingModule,
     MatCheckboxModule,
     MatButtonModule,
@@ -92,6 +96,10 @@ import { InsuranceEffects } from './effects/insurance.effects';
   providers: [
     InsuranceService,
     InsuranceApiService
+  ],
+  entryComponents: [
+    CaseModalComponent,
+    DeleteModalComponent
   ]
 })
 export class InsuranceModule { }

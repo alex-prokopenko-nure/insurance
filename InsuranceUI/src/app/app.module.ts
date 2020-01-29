@@ -10,6 +10,10 @@ import { InsuranceSwaggerApiService, API_BASE_URL } from './services/insurance.s
 import { environment } from 'src/environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
 @NgModule({
   declarations: [
@@ -21,7 +25,9 @@ import { EffectsModule } from '@ngrx/effects';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
+    NgxMaskModule.forRoot(options),
     StoreModule.forRoot({}),
     EffectsModule.forRoot([])
   ],

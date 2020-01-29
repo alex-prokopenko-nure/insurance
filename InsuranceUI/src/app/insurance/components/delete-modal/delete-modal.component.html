@@ -1,1 +1,9 @@
-<p>delete-modal works!</p>
+<div class="title">Are you sure you want to delete this case?</div>
+<div class="btn-wrapper">
+  <div>
+    <button mat-raised-button (click)="close(false)">Cancel</button>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" (click)="close(true)">Delete</button>
+  </div>
+</div>

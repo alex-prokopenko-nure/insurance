@@ -1,1 +1,92 @@
-<p>case-modal works!</p>
+<div class="title large">{{ editMode ? 'Edit Case' : 'Add Case' }}</div>
+<form [formGroup]="caseForm">
+  <mat-form-field>
+    <input matInput formControlName="number" placeholder="Policy Number:" mask="AAAAA-AAAA" [dropSpecialCharacters]="false"/>
+
+    <mat-error *ngIf="caseForm.get('number').errors?.required">This field is required!</mat-error>
+    <mat-error *ngIf="caseForm.get('number').errors && !caseForm.get('number').errors?.required">Follow pattern xxxxx-xxxx please</mat-error>
+  </mat-form-field>
+  <div>
+    <div class="title">Policy Holder:</div>
+    <div class="shifted">
+      <mat-form-field class="wide"> 
+        <input matInput formControlName="initials" placeholder="Initials:"/>
+
+        <mat-error *ngIf="caseForm.get('initials').errors?.required">This field is required!</mat-error>
+      </mat-form-field>
+      <mat-form-field class="wide">
+        <input matInput formControlName="name" placeholder="Name:"/>
+        
+        <mat-error *ngIf="caseForm.get('name').errors?.required">This field is required!</mat-error>
+      </mat-form-field>
+      <div>
+        <div class="title">Address:</div>
+        <div class="address-wrapper">
+          <mat-form-field class="address-item">
+            <input matInput formControlName="street" placeholder="Street:"/>
+
+            <mat-error *ngIf="caseForm.get('street').errors?.required">This field is required!</mat-error>
+          </mat-form-field>
+          <mat-form-field class="address-item">
+            <input matInput digits formControlName="streetNumber" placeholder="Street Number:" maxlength="6"/>
+
+            <mat-error *ngIf="caseForm.get('streetNumber').errors?.required">This field is required!</mat-error>
+          </mat-form-field>
+          <mat-form-field class="address-item">
+            <mat-label>City:</mat-label>
+            <mat-select formControlName="city">
+              <mat-option *ngFor="let city of cities" [value]="city.id">
+                {{city.name}}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="caseForm.get('city').errors?.required">This field is required!</mat-error>
+          </mat-form-field>
+          <mat-form-field class="address-item">
+            <input matInput digits formControlName="postalCode" placeholder="Postal Code:" maxlength="5"/>
+
+            <mat-error *ngIf="caseForm.get('postalCode').errors?.required">This field is required!</mat-error>
+            <mat-error *ngIf="caseForm.get('postalCode').errors?.minlength || caseForm.get('postalCode').errors?.maxlength">
+              Postal code should contain 5 digits
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+
+    <mat-error *ngIf="caseForm.get('date').errors?.required">This field is required!</mat-error>
+  </mat-form-field>
+  <div class="title">Damages:</div>
+  <div formArrayName="damages" *ngFor="let damage of caseForm.get('damages').controls; let i = index">
+    <div [formGroupName]="i">
+      <mat-form-field>
+        <mat-label>Type:</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let type of types" [value]="type">
+            {{type}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="damage.get('type').errors?.required">This field is required!</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput digits formControlName="amount" placeholder="Amount:"/>
+
+        <mat-error *ngIf="damage.get('amount').errors?.required">This field is required!</mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="warn" (click)="removeDamage(i)">Delete</button> 
+    </div>
+  </div>
+  <button mat-icon-button color="accent" (click)="addDamage()">
+    <mat-icon class="big-icon">add</mat-icon>
+  </button>
+</form>
+<div class="btn-wrapper">
+  <button mat-raised-button (click)="close()">Close</button>
+  <button *ngIf="editMode" mat-raised-button color="warn" (click)="deleteCase()">Delete Case</button>
+  <button mat-raised-button color="primary" [disabled]="caseForm.invalid || saveClicked" (click)="saveCase()">{{ editMode ? 'Edit Case' : 'Add Case' }}</button>
+</div>

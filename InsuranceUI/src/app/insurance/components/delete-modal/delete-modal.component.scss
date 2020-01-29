@@ -1,0 +1,16 @@
+.btn-wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  div {
+    padding: 0 10px;
+    text-align: center;
+  }
+}
+
+.title {
+  font-weight: 550;
+  line-height: 1.125;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  font-size: 20px;
+  margin-bottom: 20px;
+}

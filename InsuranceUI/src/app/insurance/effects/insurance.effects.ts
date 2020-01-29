@@ -22,6 +22,16 @@ export class InsuranceEffects {
     )
   );
 
+  loadCities$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(InsuranceActions.loadCities),
+      mergeMap(() => this._insuranceApiService.loadCities$().pipe(
+        map(cities => InsuranceActions.loadCitiesSuccess({ cities })),
+        catchError(error => of(InsuranceActions.loadCitiesError({ error: error.error })))
+      ))
+    )
+  );
+
   createCase$ = createEffect(() =>
     this._actions$.pipe(
       ofType(InsuranceActions.createCase),
